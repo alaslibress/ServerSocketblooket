@@ -1,0 +1,18 @@
+# docker-compose.yml - Despliegue del Servidor Blooket
+version: '3.8'
+
+services:
+  servidor-blooket:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: blooket-server
+    ports:
+      - "8080:8080"
+    stdin_open: true   # -i : necesario para la interaccion por terminal
+    tty: true          # -t : asigna pseudo-TTY
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data   # persistir keystore SSL si es necesario
+    environment:
+      - JAVA_OPTS=-Djava.net.preferIPv4Stack=true
